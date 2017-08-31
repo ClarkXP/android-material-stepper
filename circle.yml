@@ -39,7 +39,7 @@ test:
     - adb shell input keyevent 82
 
     # run instrumentation tests with coverage & lint for the sample app
-    - ./gradlew :sample:lintDebug mergedJacocoTestReport --stacktrace --no-daemon -Ptest.integration.options.adbInstallOptions=-r
+    - ./gradlew :sample:lintDebug mergedJacocoTestReport --info --stacktrace --no-daemon -Ptest.integration.options.adbInstallOptions=-r
     - ./gradlew install --no-daemon
 
     # upload code coverage reports to Codecov.io
