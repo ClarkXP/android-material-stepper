@@ -46,8 +46,8 @@ test:
 
     - ./gradlew install --no-daemon --stacktrace
 
-    # upload code coverage reports to Codecov.io
-    - bash <(curl -s https://codecov.io/bash)
+    # upload merged code coverage report to Codecov.io
+    - bash <(curl -s https://codecov.io/bash) -f sample/build/reports/jacoco/mergedJacocoTestReport/mergedJacocoTestReport.xml
 
   post:
     # copy the test results to the test results directory
