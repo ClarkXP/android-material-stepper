@@ -1,17 +1,10 @@
 package com.stepstone.stepper.sample;
 
-import android.support.annotation.NonNull;
 import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.stepstone.stepper.sample.test.action.SpoonScreenshotAction;
-import com.stepstone.stepper.sample.test.rule.WakeUpIntentsTestRule;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.Locale;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.doubleClick;
@@ -27,12 +20,8 @@ import static org.hamcrest.Matchers.allOf;
  *
  * @author Piotr Zawadzki
  */
-@RunWith(AndroidJUnit4.class)
 @LargeTest
-public class StyledProgressBarActivityTest {
-
-    @Rule
-    public WakeUpIntentsTestRule<StyledProgressBarActivity> intentsTestRule = new WakeUpIntentsTestRule<>(StyledProgressBarActivity.class);
+public class StyledProgressBarActivityTest extends AbstractActivityTest<StyledProgressBarActivity> {
 
     @Test
     public void shouldStayOnTheFirstStepWhenVerificationFails() {
@@ -71,11 +60,6 @@ public class StyledProgressBarActivityTest {
         checkCurrentStepIs(2);
         checkCompleteButtonShown();
         SpoonScreenshotAction.perform(getScreenshotTag(3, "Last step test"));
-    }
-
-    @NonNull
-    private String getScreenshotTag(int position, @NonNull String title) {
-        return String.format(Locale.ENGLISH,"%02d", position) + ". " + title;
     }
 
 }

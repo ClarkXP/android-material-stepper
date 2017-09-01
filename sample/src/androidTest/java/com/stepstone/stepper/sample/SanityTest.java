@@ -4,14 +4,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.stepstone.stepper.sample.test.action.SpoonScreenshotAction;
-import com.stepstone.stepper.sample.test.rule.WakeUpIntentsTestRule;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.Locale;
 
@@ -28,12 +24,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  *
  * @author Piotr Zawadzki
  */
-@RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SanityTest {
-
-    @Rule
-    public WakeUpIntentsTestRule<MainActivity> intentsTestRule = new WakeUpIntentsTestRule<>(MainActivity.class);
+public class SanityTest extends AbstractActivityTest<MainActivity> {
 
     @Test
     public void shouldOpenDefaultDotsActivity() {

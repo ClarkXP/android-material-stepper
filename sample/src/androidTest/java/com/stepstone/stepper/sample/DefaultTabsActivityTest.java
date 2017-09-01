@@ -1,18 +1,11 @@
 package com.stepstone.stepper.sample;
 
-import android.support.annotation.NonNull;
 import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.stepstone.stepper.internal.widget.StepTabStateMatcher;
 import com.stepstone.stepper.sample.test.action.SpoonScreenshotAction;
-import com.stepstone.stepper.sample.test.rule.WakeUpIntentsTestRule;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.Locale;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.doubleClick;
@@ -31,12 +24,8 @@ import static org.hamcrest.Matchers.allOf;
  *
  * @author Piotr Zawadzki
  */
-@RunWith(AndroidJUnit4.class)
 @LargeTest
-public class DefaultTabsActivityTest {
-
-    @Rule
-    public WakeUpIntentsTestRule<DefaultTabsActivity> intentsTestRule = new WakeUpIntentsTestRule<>(DefaultTabsActivity.class);
+public class DefaultTabsActivityTest extends AbstractActivityTest<DefaultTabsActivity> {
 
     @Test
     public void shouldStayOnTheFirstStepWhenVerificationFails() {
@@ -137,11 +126,6 @@ public class DefaultTabsActivityTest {
         checkTabState(1, StepTabStateMatcher.TabState.INACTIVE);
         checkTabState(2, StepTabStateMatcher.TabState.INACTIVE);
         SpoonScreenshotAction.perform(getScreenshotTag(6, "Verification success via tab test"));
-    }
-
-    @NonNull
-    private String getScreenshotTag(int position, @NonNull String title) {
-        return String.format(Locale.ENGLISH, "%02d", position) + ". " + title;
     }
 
 }

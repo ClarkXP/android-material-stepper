@@ -1,18 +1,11 @@
 package com.stepstone.stepper.sample;
 
-import android.support.annotation.NonNull;
 import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.stepstone.stepper.internal.widget.StepTabStateMatcher;
 import com.stepstone.stepper.sample.test.action.SpoonScreenshotAction;
-import com.stepstone.stepper.sample.test.rule.WakeUpIntentsTestRule;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.util.Locale;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.doubleClick;
@@ -31,12 +24,8 @@ import static org.hamcrest.Matchers.allOf;
  *
  * @author Piotr Zawadzki
  */
-@RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ShowErrorOnBackTabActivityTest {
-
-    @Rule
-    public WakeUpIntentsTestRule<ShowErrorOnBackTabActivity> intentsTestRule = new WakeUpIntentsTestRule<>(ShowErrorOnBackTabActivity.class);
+public class ShowErrorOnBackTabActivityTest extends AbstractActivityTest<ShowErrorOnBackTabActivity> {
 
     @Test
     public void shouldStayOnTheFirstStepWhenVerificationFailsAndShowError() {
@@ -113,11 +102,6 @@ public class ShowErrorOnBackTabActivityTest {
         checkTabState(1, StepTabStateMatcher.TabState.WARNING);
         checkTabState(2, StepTabStateMatcher.TabState.INACTIVE);
         SpoonScreenshotAction.perform(getScreenshotTag(5, "Not cleared warning on Back test"));
-    }
-
-    @NonNull
-    private String getScreenshotTag(int position, @NonNull String title) {
-        return String.format(Locale.ENGLISH,"%02d", position) + ". " + title;
     }
 
 }

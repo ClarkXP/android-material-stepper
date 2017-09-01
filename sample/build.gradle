@@ -17,7 +17,7 @@ android {
 
         vectorDrawables.useSupportLibrary = true
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.stepstone.stepper.sample.test.runner.TestButlerRunner"
         com.android.ddmlib.DdmPreferences.setTimeOut(60000)
     }
     buildTypes {
@@ -32,8 +32,6 @@ android {
     }
 
     testOptions {
-        //FIXME test orchestrator causes incorrect code coverage reports
-        //execution 'ANDROID_TEST_ORCHESTRATOR'
         animationsDisabled true
     }
 
@@ -60,7 +58,9 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestUtil "com.android.support.test:orchestrator:$supportTestVersion"
+    androidTestImplementation "com.linkedin.testbutler:test-butler-library:$testButlerVersion"
+
+    androidTestUtil "com.linkedin.testbutler:test-butler-app:$testButlerVersion@apk"
     androidTestImplementation("com.android.support:support-annotations:$androidSupportLibraryVersion") {
         force = true
     }
