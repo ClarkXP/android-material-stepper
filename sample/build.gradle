@@ -32,7 +32,8 @@ android {
     }
 
     testOptions {
-        execution 'ANDROID_TEST_ORCHESTRATOR'
+        //FIXME test orchestrator causes incorrect code coverage reports
+        //execution 'ANDROID_TEST_ORCHESTRATOR'
         animationsDisabled true
     }
 
