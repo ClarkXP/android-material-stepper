@@ -1,11 +1,11 @@
 package com.stepstone.stepper.sample;
 
 import android.support.annotation.NonNull;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.stepstone.stepper.sample.test.action.SpoonScreenshotAction;
+import com.stepstone.stepper.sample.test.rule.WakeUpIntentsTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,12 +15,11 @@ import java.util.Locale;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.doubleClick;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.stepstone.stepper.sample.test.action.StepperNavigationActions.clickNext;
-import static com.stepstone.stepper.sample.test.matcher.ViewPagerPositionMatcher.hasPagePosition;
+import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCompleteButtonShown;
+import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCurrentStepIs;
 import static org.hamcrest.Matchers.allOf;
 
 /**
@@ -33,7 +32,7 @@ import static org.hamcrest.Matchers.allOf;
 public class DefaultDotsActivityTest {
 
     @Rule
-    public IntentsTestRule<DefaultDotsActivity> intentsTestRule = new IntentsTestRule<>(DefaultDotsActivity.class);
+    public WakeUpIntentsTestRule<DefaultDotsActivity> intentsTestRule = new WakeUpIntentsTestRule<>(DefaultDotsActivity.class);
 
     @Test
     public void shouldStayOnTheFirstStepWhenVerificationFails() {
@@ -41,7 +40,7 @@ public class DefaultDotsActivityTest {
         onView(withId(R.id.stepperLayout)).perform(clickNext());
 
         //then
-        onView(withId(R.id.ms_stepPager)).check(matches(hasPagePosition(0)));
+        checkCurrentStepIs(0);
         SpoonScreenshotAction.perform(getScreenshotTag(1, "Verification failure test"));
     }
 
@@ -54,7 +53,7 @@ public class DefaultDotsActivityTest {
         onView(withId(R.id.stepperLayout)).perform(clickNext());
 
         //then
-        onView(withId(R.id.ms_stepPager)).check(matches(hasPagePosition(1)));
+        checkCurrentStepIs(1);
         SpoonScreenshotAction.perform(getScreenshotTag(2, "Verification success test"));
     }
 
@@ -69,8 +68,8 @@ public class DefaultDotsActivityTest {
         onView(withId(R.id.stepperLayout)).perform(clickNext());
 
         //then
-        onView(withId(R.id.ms_stepPager)).check(matches(hasPagePosition(2)));
-        onView(withId(R.id.ms_stepCompleteButton)).check(matches(isDisplayed()));
+        checkCurrentStepIs(2);
+        checkCompleteButtonShown();
         SpoonScreenshotAction.perform(getScreenshotTag(3, "Last step test"));
     }
 

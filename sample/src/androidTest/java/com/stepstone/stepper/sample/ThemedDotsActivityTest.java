@@ -23,16 +23,16 @@ import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCurr
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Performs tests on a 'none' stepper i.e. the one with {@code ms_stepperType="none"}.
+ * Performs tests on a themed dotted stepper i.e. the one with {@code ms_stepperType="dots"}.
  *
  * @author Piotr Zawadzki
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class DefaultNoneActivityTest {
+public class ThemedDotsActivityTest {
 
     @Rule
-    public WakeUpIntentsTestRule<DefaultNoneActivity> intentsTestRule = new WakeUpIntentsTestRule<>(DefaultNoneActivity.class);
+    public WakeUpIntentsTestRule<ThemedDotsActivity> intentsTestRule = new WakeUpIntentsTestRule<>(ThemedDotsActivity.class);
 
     @Test
     public void shouldStayOnTheFirstStepWhenVerificationFails() {

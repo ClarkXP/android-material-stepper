@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.stepstone.stepper.internal.widget.StepTabStateMatcher;
 import com.stepstone.stepper.sample.test.action.SpoonScreenshotAction;
 import com.stepstone.stepper.sample.test.rule.WakeUpIntentsTestRule;
 
@@ -17,22 +18,24 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.doubleClick;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.stepstone.stepper.sample.test.action.StepperNavigationActions.clickComplete;
 import static com.stepstone.stepper.sample.test.action.StepperNavigationActions.clickNext;
 import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCompleteButtonShown;
 import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCurrentStepIs;
+import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkTabState;
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Performs tests on a 'none' stepper i.e. the one with {@code ms_stepperType="none"}.
+ * Performs tests on a styled tabbed stepper i.e. the one with {@code ms_stepperType="tabs"}.
  *
  * @author Piotr Zawadzki
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class DefaultNoneActivityTest {
+public class StyledTabsActivityTest {
 
     @Rule
-    public WakeUpIntentsTestRule<DefaultNoneActivity> intentsTestRule = new WakeUpIntentsTestRule<>(DefaultNoneActivity.class);
+    public WakeUpIntentsTestRule<StyledTabsActivity> intentsTestRule = new WakeUpIntentsTestRule<>(StyledTabsActivity.class);
 
     @Test
     public void shouldStayOnTheFirstStepWhenVerificationFails() {
@@ -41,6 +44,9 @@ public class DefaultNoneActivityTest {
 
         //then
         checkCurrentStepIs(0);
+        checkTabState(0, StepTabStateMatcher.TabState.ACTIVE);
+        checkTabState(1, StepTabStateMatcher.TabState.INACTIVE);
+        checkTabState(2, StepTabStateMatcher.TabState.INACTIVE);
         SpoonScreenshotAction.perform(getScreenshotTag(1, "Verification failure test"));
     }
 
@@ -54,6 +60,9 @@ public class DefaultNoneActivityTest {
 
         //then
         checkCurrentStepIs(1);
+        checkTabState(0, StepTabStateMatcher.TabState.DONE);
+        checkTabState(1, StepTabStateMatcher.TabState.ACTIVE);
+        checkTabState(2, StepTabStateMatcher.TabState.INACTIVE);
         SpoonScreenshotAction.perform(getScreenshotTag(2, "Verification success test"));
     }
 
@@ -70,7 +79,30 @@ public class DefaultNoneActivityTest {
         //then
         checkCurrentStepIs(2);
         checkCompleteButtonShown();
+        checkTabState(0, StepTabStateMatcher.TabState.DONE);
+        checkTabState(1, StepTabStateMatcher.TabState.DONE);
+        checkTabState(2, StepTabStateMatcher.TabState.ACTIVE);
         SpoonScreenshotAction.perform(getScreenshotTag(3, "Last step test"));
+    }
+
+    @Test
+    public void shouldCompleteStepperFlow() {
+        //given
+        onView(allOf(withId(R.id.button), isCompletelyDisplayed())).perform(doubleClick());
+        onView(withId(R.id.stepperLayout)).perform(clickNext());
+        onView(allOf(withId(R.id.button), isCompletelyDisplayed())).perform(doubleClick());
+        onView(withId(R.id.stepperLayout)).perform(clickNext());
+        onView(allOf(withId(R.id.button), isCompletelyDisplayed())).perform(doubleClick());
+
+        //when
+        onView(withId(R.id.stepperLayout)).perform(clickComplete());
+
+        //then
+        checkCurrentStepIs(2);
+        checkTabState(0, StepTabStateMatcher.TabState.DONE);
+        checkTabState(1, StepTabStateMatcher.TabState.DONE);
+        checkTabState(2, StepTabStateMatcher.TabState.ACTIVE);
+        SpoonScreenshotAction.perform(getScreenshotTag(4, "Completion test"));
     }
 
     @NonNull

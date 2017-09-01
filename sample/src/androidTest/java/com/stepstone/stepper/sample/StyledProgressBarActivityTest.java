@@ -23,16 +23,16 @@ import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCurr
 import static org.hamcrest.Matchers.allOf;
 
 /**
- * Performs tests on a 'none' stepper i.e. the one with {@code ms_stepperType="none"}.
+ * Performs tests on a styled progress bar stepper i.e. the one with {@code ms_stepperType="progress_bar"}.
  *
  * @author Piotr Zawadzki
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class DefaultNoneActivityTest {
+public class StyledProgressBarActivityTest {
 
     @Rule
-    public WakeUpIntentsTestRule<DefaultNoneActivity> intentsTestRule = new WakeUpIntentsTestRule<>(DefaultNoneActivity.class);
+    public WakeUpIntentsTestRule<StyledProgressBarActivity> intentsTestRule = new WakeUpIntentsTestRule<>(StyledProgressBarActivity.class);
 
     @Test
     public void shouldStayOnTheFirstStepWhenVerificationFails() {

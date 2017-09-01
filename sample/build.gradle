@@ -18,6 +18,7 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        com.android.ddmlib.DdmPreferences.setTimeOut(60000)
     }
     buildTypes {
         release {
@@ -32,6 +33,7 @@ android {
 
     testOptions {
         execution 'ANDROID_TEST_ORCHESTRATOR'
+        animationsDisabled true
     }
 
     adbOptions {

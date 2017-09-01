@@ -42,6 +42,46 @@ public class StepperNavigationActions {
     }
 
     /**
+     * Clicks the Back button.
+     */
+    public static ViewAction clickBack() {
+        return new AbstractStepperNavigationAction() {
+
+            @Override
+            public String getDescription() {
+                return "Click on the Back button";
+            }
+
+            @Override
+            protected void performAction(StepperLayout stepperLayout) {
+                View backButton = stepperLayout.findViewById(com.stepstone.stepper.R.id.ms_stepPrevButton);
+                backButton.performClick();
+            }
+
+        };
+    }
+
+    /**
+     * Clicks the Complete button.
+     */
+    public static ViewAction clickComplete() {
+        return new AbstractStepperNavigationAction() {
+
+            @Override
+            public String getDescription() {
+                return "Click on the Complete button";
+            }
+
+            @Override
+            protected void performAction(StepperLayout stepperLayout) {
+                View completeButton = stepperLayout.findViewById(com.stepstone.stepper.R.id.ms_stepCompleteButton);
+                completeButton.performClick();
+            }
+
+        };
+    }
+
+    /**
      * Based on {@link ViewPagerActions.ViewPagerScrollAction}.
      */
     private abstract static class AbstractStepperNavigationAction implements ViewAction {

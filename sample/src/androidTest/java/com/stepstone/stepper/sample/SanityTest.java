@@ -3,11 +3,11 @@ package com.stepstone.stepper.sample;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.stepstone.stepper.sample.test.action.SpoonScreenshotAction;
+import com.stepstone.stepper.sample.test.rule.WakeUpIntentsTestRule;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -30,11 +30,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-// TODO: 23/08/2017 this test is not recognised for some reason if written in Kotlin...
 public class SanityTest {
 
     @Rule
-    public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
+    public WakeUpIntentsTestRule<MainActivity> intentsTestRule = new WakeUpIntentsTestRule<>(MainActivity.class);
 
     @Test
     public void shouldOpenDefaultDotsActivity() {
