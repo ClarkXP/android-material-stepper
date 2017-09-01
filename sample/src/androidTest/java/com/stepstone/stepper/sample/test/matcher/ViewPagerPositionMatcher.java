@@ -1,5 +1,6 @@
 package com.stepstone.stepper.sample.test.matcher;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v4.view.ViewPager;
@@ -18,7 +19,8 @@ import static org.hamcrest.Matchers.is;
  */
 public class ViewPagerPositionMatcher extends BoundedMatcher<View, ViewPager> {
 
-    private Matcher<Integer> positionMatcher;
+    @NonNull
+    private final Matcher<Integer> positionMatcher;
 
     private ViewPagerPositionMatcher(Matcher<Integer> positionMatcher) {
         super(ViewPager.class);
@@ -46,7 +48,7 @@ public class ViewPagerPositionMatcher extends BoundedMatcher<View, ViewPager> {
     /**
      * Returns a matcher that matches {@link ViewPager} based on currently selected view position.
      */
-    public static Matcher<View> hasPagePosition(final int position) {
+    public static Matcher<View> hasPagePosition(@IntRange(from = 0) final int position) {
         return new ViewPagerPositionMatcher(is(position));
     }
 }

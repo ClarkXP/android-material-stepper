@@ -1,13 +1,16 @@
 package com.stepstone.stepper.sample.test.action;
 
+import android.support.annotation.IntRange;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.contrib.ViewPagerActions;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.stepstone.stepper.StepperLayout;
+import com.stepstone.stepper.internal.widget.StepTab;
 import com.stepstone.stepper.sample.test.idling.CustomViewPagerListener;
 
 import org.hamcrest.Matcher;
@@ -76,6 +79,37 @@ public class StepperNavigationActions {
             protected void performAction(StepperLayout stepperLayout) {
                 View completeButton = stepperLayout.findViewById(com.stepstone.stepper.R.id.ms_stepCompleteButton);
                 completeButton.performClick();
+            }
+
+        };
+    }
+
+    /**
+     * Clicks a tab at a specified position.
+     */
+    public static ViewAction clickTabAtPosition(@IntRange(from = 0) final int tabPosition) {
+        return new AbstractStepperNavigationAction() {
+
+            @Override
+            public String getDescription() {
+                return "Click on tab at position: " + tabPosition;
+            }
+
+            @Override
+            protected void performAction(StepperLayout stepperLayout) {
+                ViewGroup tabsContainer = (ViewGroup) stepperLayout.findViewById(com.stepstone.stepper.R.id.ms_stepTabsInnerContainer);
+                int childCount = tabsContainer.getChildCount();
+
+                if (childCount == 0) {
+                    throw new IllegalArgumentException("No tabs found!");
+                }
+
+                if (tabPosition < 0 || tabPosition >= childCount) {
+                    throw new IllegalArgumentException("Invalid tab position: " + tabPosition);
+                }
+
+                StepTab stepTab = (StepTab) tabsContainer.getChildAt(tabPosition);
+                stepTab.performClick();
             }
 
         };

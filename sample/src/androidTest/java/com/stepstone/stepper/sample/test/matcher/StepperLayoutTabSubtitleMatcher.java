@@ -3,39 +3,36 @@ package com.stepstone.stepper.sample.test.matcher;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.matcher.BoundedMatcher;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.internal.widget.StepTab;
-import com.stepstone.stepper.internal.widget.StepTabStateMatcher;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 
-import static android.support.test.espresso.core.internal.deps.guava.base.Preconditions.checkNotNull;
-
 /**
- * Checks the state of a {@link StepTab} at a specified position.
+ * Checks the subtitle of a {@link StepTab} at a specified position.
  *
  * @author Piotr Zawadzki
  */
-public class StepperLayoutTabStateMatcher extends BoundedMatcher<View, StepperLayout> {
+public class StepperLayoutTabSubtitleMatcher extends BoundedMatcher<View, StepperLayout> {
 
-    private static final String TAG = "StepperLayoutTabStateMa";
+    private static final String TAG = "StepperLayoutTabSubtMa";
 
     @IntRange(from = 0)
     private final int tabPosition;
 
     @NonNull
-    private final StepTabStateMatcher.TabState state;
+    private final Matcher<View> subtitleMatcher;
 
-    private StepperLayoutTabStateMatcher(@IntRange(from = 0) int tabPosition, @NonNull StepTabStateMatcher.TabState state) {
+    private StepperLayoutTabSubtitleMatcher(@IntRange(from = 0) int tabPosition, @NonNull Matcher<View> subtitleMatcher) {
         super(StepperLayout.class);
         this.tabPosition = tabPosition;
-        this.state = state;
+        this.subtitleMatcher = subtitleMatcher;
     }
 
     @Override
@@ -43,8 +40,8 @@ public class StepperLayoutTabStateMatcher extends BoundedMatcher<View, StepperLa
         description
                 .appendText(" at position: ")
                 .appendValue(tabPosition)
-                .appendText(" in state: ")
-                .appendValue(state.name());
+                .appendText(" with message: ")
+                .appendValue(subtitleMatcher);
     }
 
     @Override
@@ -63,12 +60,13 @@ public class StepperLayoutTabStateMatcher extends BoundedMatcher<View, StepperLa
         }
 
         StepTab stepTab = (StepTab) tabsContainer.getChildAt(tabPosition);
+        TextView subtitleTextView = (TextView) stepTab.findViewById(com.stepstone.stepper.R.id.ms_stepSubtitle);
 
-        return new StepTabStateMatcher(state).matches(stepTab);
+        return subtitleMatcher.matches(subtitleTextView);
     }
 
-    public static Matcher<View> tabAtPositionIsInState(@IntRange(from = 0) int tabPosition, @NonNull StepTabStateMatcher.TabState state) {
-        return new StepperLayoutTabStateMatcher(tabPosition, checkNotNull(state));
+    public static Matcher<View> tabAtPositionHasSubtitle(@IntRange(from = 0) int tabPosition, @NonNull Matcher<View> subtitleMatcher) {
+        return new StepperLayoutTabSubtitleMatcher(tabPosition, subtitleMatcher);
     }
 
 }

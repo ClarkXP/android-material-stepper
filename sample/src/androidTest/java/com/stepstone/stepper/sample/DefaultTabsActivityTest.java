@@ -20,6 +20,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDis
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.stepstone.stepper.sample.test.action.StepperNavigationActions.clickComplete;
 import static com.stepstone.stepper.sample.test.action.StepperNavigationActions.clickNext;
+import static com.stepstone.stepper.sample.test.action.StepperNavigationActions.clickTabAtPosition;
 import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCompleteButtonShown;
 import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkCurrentStepIs;
 import static com.stepstone.stepper.sample.test.matcher.CommonMatchers.checkTabState;
@@ -103,6 +104,39 @@ public class DefaultTabsActivityTest {
         checkTabState(1, StepTabStateMatcher.TabState.DONE);
         checkTabState(2, StepTabStateMatcher.TabState.ACTIVE);
         SpoonScreenshotAction.perform(getScreenshotTag(4, "Completion test"));
+    }
+
+    @Test
+    public void shouldGoToTheNextStepWhenVerificationSucceedsAndNextTabClicked() {
+        //given
+        onView(allOf(withId(R.id.button), isCompletelyDisplayed())).perform(doubleClick());
+
+        //when
+        onView(withId(R.id.stepperLayout)).perform(clickTabAtPosition(1));
+
+        //then
+        checkCurrentStepIs(1);
+        checkTabState(0, StepTabStateMatcher.TabState.DONE);
+        checkTabState(1, StepTabStateMatcher.TabState.ACTIVE);
+        checkTabState(2, StepTabStateMatcher.TabState.INACTIVE);
+        SpoonScreenshotAction.perform(getScreenshotTag(5, "Go back via tab test"));
+    }
+
+    @Test
+    public void shouldGoToThePreviousStepWhenPreviousTabClicked() {
+        //given
+        onView(allOf(withId(R.id.button), isCompletelyDisplayed())).perform(doubleClick());
+        onView(withId(R.id.stepperLayout)).perform(clickNext());
+
+        //when
+        onView(withId(R.id.stepperLayout)).perform(clickTabAtPosition(0));
+
+        //then
+        checkCurrentStepIs(0);
+        checkTabState(0, StepTabStateMatcher.TabState.ACTIVE);
+        checkTabState(1, StepTabStateMatcher.TabState.INACTIVE);
+        checkTabState(2, StepTabStateMatcher.TabState.INACTIVE);
+        SpoonScreenshotAction.perform(getScreenshotTag(6, "Verification success via tab test"));
     }
 
     @NonNull
